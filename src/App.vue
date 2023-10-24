@@ -1,6 +1,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useUserStore } from './stores/user'
+const user = useUserStore()
 </script>
 
 <template>
@@ -17,15 +19,12 @@ import HelloWorld from './components/HelloWorld.vue'
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
+              <li v-if="user.estaLogueado" class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">
                   <RouterLink to="/about">About</RouterLink>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><RouterLink to="/login">Login</RouterLink></a>
-              </li>
-              <li class="nav-item dropdown">
+              <li v-if="user.estaLogueado" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false">
                   Dropdown
@@ -39,14 +38,14 @@ import HelloWorld from './components/HelloWorld.vue'
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
-              <li class="nav-item">
+              <li v-if="user.estaLogueado" class="nav-item">
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+
+            <RouterLink v-if="!user.estaLogueado" to="/login"><button class="btn btn-outline-success">Login</button></RouterLink>
+            <h4 v-if="user.estaLogueado">{{ user.nombreUsuario }}</h4>
+            <button @click="user.reset()" v-if="user.estaLogueado" class="btn btn-outline-danger">Logout</button>
           </div>
         </div>
       </nav>

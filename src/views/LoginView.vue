@@ -1,7 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '../stores/user'
+import { useRouter } from "vue-router";
 const user = useUserStore()
+const router = useRouter();
+
 let mail = ref("")
 let contrasena = ref("")
 
@@ -11,7 +14,10 @@ const validarInfo = () => {
     mail = ""
     contrasena = ""
   } else {
-    user.login(mail.value, contrasena.value)
+    let respuesta = user.login(mail.value, contrasena.value)
+    if (respuesta && user.esPaciente) {
+      router.push("/homePaciente")
+    }
   }
 }
 
