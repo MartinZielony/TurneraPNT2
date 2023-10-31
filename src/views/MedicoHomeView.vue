@@ -10,8 +10,8 @@ const router = useRouter();
   <main>
     <div class="text-center">
       <h1>Bienvenido, {{ user.nombreUsuario }} {{ user.apellidoUsuario }}</h1>
-      <RouterLink to="/pacienteNuevoTurno"><button class="btn btn-primary m-1">Sacar un Turno</button></RouterLink>
-      <RouterLink to="/listadoTurnos"><button class="btn btn-primary m-1">Ver mis Turnos</button></RouterLink>
+      <RouterLink to="/agendaMedico"><button class="btn btn-primary m-1">Ver Agenda</button></RouterLink>
+      <RouterLink to="/modificarInfoMedico"><button class="btn btn-primary m-1">Modificar Información</button></RouterLink>
     </div>
 
   </main>

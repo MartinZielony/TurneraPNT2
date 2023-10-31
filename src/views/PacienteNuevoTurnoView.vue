@@ -15,6 +15,9 @@ const revelarMedicos = () => {
   console.log(listado);
 }
 
+const exito = () => {
+  router.push("/exitoNuevoTurno")
+}
 
 </script>
 
@@ -30,6 +33,8 @@ const revelarMedicos = () => {
       <select class="form-select">
         <option v-for="medico in listado" value="medico.nombre">{{ medico.nombre }}</option>
       </select>
+      <input type="datetime-local" name=""> <br>
+      <button @click="exito" class="btn btn-primary">Continuar</button>
     </div>
   </main>
 </template>
