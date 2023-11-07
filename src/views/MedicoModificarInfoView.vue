@@ -5,8 +5,11 @@ import { useRouter } from "vue-router";
 const user = useUserStore()
 const router = useRouter();
 
-let mail = ref("")
-let contrasena = ref("")
+let mail = user.correoUsuario
+let nombre = user.nombreUsuario
+let apellido = user.apellidoUsuario
+let horarioInicioAtencion = user.horarioInicioAtencion
+let horarioFinAtencion = user.horarioFinAtencion
 
 const validarInfo = () => {
   if (mail.value == "" && contrasena.value == "") {
@@ -31,35 +34,28 @@ const validarInfo = () => {
         <label for="inputEmail4" class="form-label">Email</label>
         <input type="email" class="form-control" id="inputEmail4" v-model="mail">
       </div>
-      <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="inputPassword4" v-model="contrasena">
-      </div>
 
       <div class="col-md-6">
         <label for="inputName4" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="inputNombre4">
+        <input type="text" class="form-control" id="inputNombre4" v-model="nombre">
       </div>
 
       <div class="col-md-6">
         <label for="inputApellido4" class="form-label">Apellido</label>
-        <input type="text" class="form-control" id="inputApellido4">
+        <input type="text" class="form-control" id="inputApellido4" v-model="apellido">
       </div>
 
       <label for="inputHorarioInicioAtencion" class="form-label">Horario de Inicio de Atención</label>
-      <input type="datetime-local" name="inputHorarioInicioAtencion"> <br>
+      <input type="time" name="inputHorarioInicioAtencion" v-model="horarioInicioAtencion">
       <label for="inputHorarioFinAtencion" class="form-label">Horario de Fin de Atención</label>
-      <input type="datetime-local" name="inputHorarioFinAtencion">
+      <input type="time" name="inputHorarioFinAtencion" v-model="horarioFinAtencion"> <br>
 
+      <label for="selectEspecialidad" class="form-label">Especialidad</label>
       <select class="form-select" name="Especialidades" id="especialidades">
         <option value="1">Pediatría</option>
         <option value="2">Clínico</option>
         <option value="3">Urólogo</option>
       </select>
-
-      <button class="btn btn-primary">Agregar Especialidad</button>
-      <button class="btn btn-danger">Eliminar Especialidad</button>
-      <!--Esto es provisorio, agregar o eliminar varias especialidades al a vez se tiene que manejar distinto-->
       <div class="col-12">
         <button class="btn btn-primary">Modificar</button>
       </div>

@@ -8,13 +8,13 @@ const router = useRouter();
 let mail = ref("")
 let contrasena = ref("")
 
-const validarInfo = () => {
+const validarInfo = async () => {
   if (mail.value == "" && contrasena.value == "") {
     alert("Usuario y Contraseña deben estar completos!")
     mail = ""
     contrasena = ""
   } else {
-    let respuesta = user.login(mail.value, contrasena.value)
+    let respuesta = await user.login(mail.value, contrasena.value)
     if (respuesta) {
       if(user.esPaciente) {
         router.push("/homePaciente")

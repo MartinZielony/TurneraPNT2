@@ -1,7 +1,14 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter} from 'vue-router'
 import { useUserStore } from '../stores/user'
 const user = useUserStore()
+const router = useRouter();
+
+const resetear = () => {
+  user.estaLogueado = false
+  user.$reset
+  router.push("/")
+}
 </script>
 
 <template>
@@ -22,28 +29,11 @@ const user = useUserStore()
                   <RouterLink to="/about">About</RouterLink>
                 </a>
               </li>
-              <li v-if="user.estaLogueado" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li v-if="user.estaLogueado" class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
             </ul>
 
             <RouterLink v-if="!user.estaLogueado" to="/login"><button class="btn btn-outline-success">Login</button></RouterLink>
             <h4 v-if="user.estaLogueado">{{ user.nombreUsuario }}</h4>
-            <button @click="user.reset()" v-if="user.estaLogueado" class="btn btn-outline-danger">Logout</button>
+            <button @click="resetear()" v-if="user.estaLogueado" class="btn btn-outline-danger">Logout</button>
           </div>
         </div>
       </nav>

@@ -9,24 +9,33 @@ export const useUserStore = defineStore('user', () => {
   const nombreUsuario = ref("")
   const apellidoUsuario = ref("")
   const dniUsuario = ref('')
+  const listaTurnos = ref([])
+  const horarioInicioAtencion = ref('')
+  const horarioFinAtencion = ref('')
 
-  const login = async (mail, contrasena) => {
+  async function login(mail, contrasena) {
     console.log(mail);
     console.log(contrasena);
     let respuesta = await userService.login({ mail, contrasena })
     console.log(respuesta);
-    return true
-    /*if (respuesta.status == 200) {
-      estaLogueado.value = true
-      correoUsuario.value = respuesta.usuario.mail
-      esPaciente.value = respuesta.usuario.esPaciente
-      nombreUsuario.value = respuesta.usuario.nombre
-      apellidoUsuario.value = respuesta.usuario.apellido
+    if (respuesta.status == 200) {
+      console.log("Respuesta exitosa");
+      this.correoUsuario = respuesta.data.mail
+      this.estaLogueado = true
+      this.esPaciente = respuesta.data.esPaciente
+      this.nombreUsuario = respuesta.data.nombre
+      this.apellidoUsuario = respuesta.data.apellido
+      this.listaTurnos = respuesta.data.turnos
+
+      if(!esPaciente) {
+        this.horarioInicioAtencion = respuesta.data.horarioInicioAtencion
+        this.horarioFinAtencion = respuesta.data.horarioFinAtencion
+      }
+
       return true
     } else {
       return false
-    } */
-
+    }
   }
 
   const register = (mail, contrasena) => {
@@ -36,6 +45,7 @@ export const useUserStore = defineStore('user', () => {
       esPaciente.value = true
       nombreUsuario.value = "Pablo"
       apellidoUsuario.value = "Canseco"
+
       alert(`Se registró, ${mail} ${contrasena}`)
       return true
     }
@@ -46,5 +56,12 @@ export const useUserStore = defineStore('user', () => {
     estaLogueado.value = false
   }
 
-  return { correoUsuario, esPaciente, estaLogueado, nombreUsuario, apellidoUsuario, dniUsuario, login, register, reset }
+  const eliminarTurno = (id) => {
+    let turno = listaTurnos.value.find(turno => turno.id == id)
+    let indice = listaTurnos.value.indexOf(turno)
+    listaTurnos.value.splice(indice, 1)
+    console.log("Lista de turnos luego de eliminar: ", listaTurnos);
+  }
+
+  return { correoUsuario, esPaciente, estaLogueado, nombreUsuario, apellidoUsuario, dniUsuario, listaTurnos, horarioInicioAtencion, horarioFinAtencion, login, register, reset, eliminarTurno }
 })
