@@ -12,7 +12,8 @@ const validarInfo = () => {
     alert("Campo Mail debe estar completo!")
     mail = ""
   } else {
-    router.push("/homePaciente")
+    alert("Te enviaremos un mail para que resetees tu contraseña.")
+    router.push("/login")
   }
 }
 </script>

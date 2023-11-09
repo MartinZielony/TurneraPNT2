@@ -21,6 +21,11 @@ const validarInfo = () => {
   }
 }
 
+const registrar = () => {
+  alert("Te registraste!")
+  router.push("/login")
+}
+
 </script>
 
 <template>
@@ -35,8 +40,9 @@ const validarInfo = () => {
         <label for="inputPassword4" class="form-label">Contraseña</label>
         <input type="password" class="form-control" id="inputPassword4" v-model="contrasena">
       </div>
+      <br>
       <div class="col-12">
-        <button class="btn btn-primary">Registrarse</button>
+        <button @click="registrar" class="btn btn-primary">Registrarse</button>
       </div>
     </form>
   </main>
