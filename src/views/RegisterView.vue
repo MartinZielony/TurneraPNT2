@@ -6,7 +6,10 @@ const user = useUserStore()
 const router = useRouter();
 
 let mail = ref("")
+let nombre = ref("")
+let apellido = ref("")
 let contrasena = ref("")
+let esMedico = ref(false)
 
 const validarInfo = () => {
   if (mail.value == "" && contrasena.value == "") {
@@ -14,16 +17,12 @@ const validarInfo = () => {
     mail = ""
     contrasena = ""
   } else {
-    let respuesta = user.register(mail.value, contrasena.value)
-    if (respuesta && user.esPaciente) {
-      router.push("/homePaciente")
-    }
+    let respuesta = user.register(mail.value, contrasena.value, nombre.value, apellido.value, esMedico)
   }
 }
 
 const registrar = () => {
-  alert("Te registraste!")
-  router.push("/login")
+  validarInfo()
 }
 
 </script>
@@ -33,6 +32,14 @@ const registrar = () => {
     <form @submit.prevent="validarInfo()">
       <h1>Registrarse</h1>
       <div class="col-md-6">
+        <label for="inputNombre4" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="inputNombre4" v-model="nombre">
+      </div>
+      <div class="col-md-6">
+        <label for="inputApellido" class="form-label">Apellido</label>
+        <input type="texto" class="form-control" id="inputApellido" v-model="apellido">
+      </div>
+      <div class="col-md-6">
         <label for="inputEmail4" class="form-label">Email</label>
         <input type="email" class="form-control" id="inputEmail4" v-model="mail">
       </div>
@@ -40,6 +47,8 @@ const registrar = () => {
         <label for="inputPassword4" class="form-label">Contraseña</label>
         <input type="password" class="form-control" id="inputPassword4" v-model="contrasena">
       </div>
+      <input type="checkbox" id="checkbox" v-model="esMedico" />
+      <label for="checkbox">Soy Médico</label>
       <br>
       <div class="col-12">
         <button @click="registrar" class="btn btn-primary">Registrarse</button>

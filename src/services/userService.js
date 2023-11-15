@@ -10,7 +10,7 @@ export default {
 	},
 
 	register(user){
-		return apiClient.post('/usuarios/register', user);
-        //http://localhost:3000/api/usuarios/register
+		return apiClient.post('/usuario/', user);
+        //http://localhost:8080/api/usuario/
 	}
 }

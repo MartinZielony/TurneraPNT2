@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import userService from '../services/userService'
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 export const useUserStore = defineStore('user', () => {
   const correoUsuario = ref("")
@@ -27,7 +29,7 @@ export const useUserStore = defineStore('user', () => {
       this.apellidoUsuario = respuesta.data.apellido
       this.listaTurnos = respuesta.data.turnos
 
-      if(!esPaciente) {
+      if (!esPaciente) {
         this.horarioInicioAtencion = respuesta.data.horarioInicioAtencion
         this.horarioFinAtencion = respuesta.data.horarioFinAtencion
       }
@@ -38,17 +40,13 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const register = (mail, contrasena) => {
-    if (contrasena == "123") {
-      correoUsuario.value = mail
-      estaLogueado.value = true
-      esPaciente.value = true
-      nombreUsuario.value = "Pablo"
-      apellidoUsuario.value = "Canseco"
-
-      alert(`Se registró, ${mail} ${contrasena}`)
+  const register = async (mail, contrasena, nombre, apellido, esMedico) => {
+    let respuesta = await userService.register({ mail, contrasena, nombre, apellido, esMedico })
+    if (respuesta.status == 200) {
+      alert(`Se registró, ${nombre} ${apellido}`)
+      router.push("/login")
       return true
-    }
+    } else return false
   }
 
   const reset = () => {
