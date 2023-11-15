@@ -17,3 +17,9 @@ const router = useRouter();
   </main>
 </template>
 
+<style scoped>
+body{
+  background-color: white;
+  background-image: none;
+}
+</style>

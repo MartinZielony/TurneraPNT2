@@ -38,7 +38,7 @@ const estasSeguro = (id) => {
   </main>
 </template>
 
-<style>
+<style scoped >
 .grilla{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -46,4 +46,6 @@ const estasSeguro = (id) => {
   justify-items: center;
   padding: 3%;
 }
+
+
 </style>

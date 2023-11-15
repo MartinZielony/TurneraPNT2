@@ -28,6 +28,7 @@ const registrar = () => {
 
 </script>
 
+
 <template>
   <main>
     <form @submit.prevent="validarInfo()">
@@ -47,3 +48,4 @@ const registrar = () => {
     </form>
   </main>
 </template>
+
