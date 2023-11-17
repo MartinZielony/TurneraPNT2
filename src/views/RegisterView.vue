@@ -1,31 +1,30 @@
 <script setup>
-import { ref } from 'vue'
-import { useUserStore } from '../stores/user'
+import { ref } from "vue";
+import { useUserStore } from "../stores/user";
 import { useRouter } from "vue-router";
-const user = useUserStore()
+const user = useUserStore();
 const router = useRouter();
 
-let mail = ref("")
-let contrasena = ref("")
+let mail = ref("");
+let contrasena = ref("");
 
 const validarInfo = () => {
   if (mail.value == "" && contrasena.value == "") {
-    alert("Usuario y Contraseña deben estar completos!")
-    mail = ""
-    contrasena = ""
+    alert("Usuario y Contraseña deben estar completos!");
+    mail = "";
+    contrasena = "";
   } else {
-    let respuesta = user.register(mail.value, contrasena.value)
+    let respuesta = user.register(mail.value, contrasena.value);
     if (respuesta && user.esPaciente) {
-      router.push("/homePaciente")
+      router.push("/homePaciente");
     }
   }
-}
+};
 
 const registrar = () => {
-  alert("Te registraste!")
-  router.push("/login")
-}
-
+  alert("Te registraste!");
+  router.push("/login");
+};
 </script>
 
 
@@ -35,13 +34,23 @@ const registrar = () => {
       <h1>Registrarse</h1>
       <div class="col-md-6">
         <label for="inputEmail4" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail4" v-model="mail">
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail4"
+          v-model="mail"
+        />
       </div>
       <div class="col-md-6">
         <label for="inputPassword4" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="inputPassword4" v-model="contrasena">
+        <input
+          type="password"
+          class="form-control"
+          id="inputPassword4"
+          v-model="contrasena"
+        />
       </div>
-      <br>
+      <br />
       <div class="col-12">
         <button @click="registrar" class="btn btn-primary">Registrarse</button>
       </div>
@@ -49,3 +58,65 @@ const registrar = () => {
   </main>
 </template>
 
+<style scoped>
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+form {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #d1dadc;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+input {
+  width: 100% !important;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #5f7e85 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #a4b5b9 !important;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #496c74;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+</style>
