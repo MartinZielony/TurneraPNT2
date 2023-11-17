@@ -104,7 +104,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 form {
@@ -112,5 +111,8 @@ form {
   padding: 20px;
   border-radius: 8px;
   background-color: #d1dadc;
+  height: 80%; 
+  overflow: auto;
 }
+
 </style>

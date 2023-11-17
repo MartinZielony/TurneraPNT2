@@ -50,6 +50,10 @@ const registrar = () => {
           v-model="contrasena"
         />
       </div>
+      <div>
+      <label for="checkbox">Soy Médico</label>
+      <input type="checkbox" id="checkbox" class="checkbox" v-model="esMedico" />
+      </div>
       <br />
       <div class="col-12">
         <button @click="registrar" class="btn btn-primary">Registrarse</button>
@@ -116,7 +120,10 @@ a:hover {
   text-decoration: underline;
 }
 
-.font-weight-bold {
-  font-weight: bold;
+.checkbox{
+	width: 20px;
+	height: 20px;
+  border: none;
+  background-color: #fff; 
 }
 </style>

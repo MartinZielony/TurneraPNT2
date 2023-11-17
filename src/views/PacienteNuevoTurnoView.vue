@@ -73,11 +73,10 @@ let horarios = ref([
       </select>
       <select class="form-select">
         <option value="#" selected disabled>Seleccione un médico</option>
-        <option v-for="medico in medicosFiltrados" value="medico.nombre">
-          {{ medico.nombre }}
-        </option>
+        <option v-for="medico in medicosFiltrados" value="medico.nombre">{{ medico.nombre }}</option>
       </select>
       <input type="date" class="form-control" /> <br />
+      <div class="table-container">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -103,6 +102,7 @@ let horarios = ref([
         </tbody>
       </table>
     </div>
+    </div>
   </main>
 </template>
 
@@ -111,7 +111,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 .formulario {
   width: 100%;
@@ -119,5 +118,13 @@ main {
   padding: 25px;
   border-radius: 8px;
   background-color: #d1dadc;
+  overflow: auto;
+}
+.table-container {
+  height: 100%; 
+  overflow: auto;
+}
+.table {
+  width: 100%; 
 }
 </style>

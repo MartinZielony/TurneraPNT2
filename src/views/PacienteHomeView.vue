@@ -2,8 +2,10 @@
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
 import { useRouter, RouterLink } from "vue-router";
+
 const user = useUserStore();
 const router = useRouter();
+
 </script>
 
 <template>
@@ -17,6 +19,7 @@ const router = useRouter();
         ><button class="btn btn-primary m-1">Ver mis Turnos</button></RouterLink
       >
     </div>
+
   </main>
 </template>
 
@@ -34,4 +37,5 @@ main {
   border-radius: 8px;
   background-color: #d1dadc;
 }
+
 </style>
