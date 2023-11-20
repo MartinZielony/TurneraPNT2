@@ -46,4 +46,17 @@ const estasSeguro = (id) => {
   justify-items: center;
   padding: 3%;
 }
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.text-center {
+  width: 100%;
+  height: 80%;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #d1dadc;
+}
 </style>
