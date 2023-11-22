@@ -34,7 +34,7 @@ const validarInfo = async () => {
   <main>
     <form class="form" @submit.prevent="validarInfo()">
       <h1>Login</h1>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="inputEmail4" class="form-label">Email</label>
         <input
           type="email"
@@ -43,7 +43,7 @@ const validarInfo = async () => {
           v-model="mail"
         />
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="inputPassword4" class="form-label">Contraseña</label>
         <input
           type="password"

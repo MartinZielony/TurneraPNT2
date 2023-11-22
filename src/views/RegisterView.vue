@@ -32,7 +32,15 @@ const registrar = () => {
   <main>
     <form @submit.prevent="validarInfo()">
       <h1>Registrarse</h1>
-      <div class="col-md-6">
+      <div class="col-md-12">
+        <label for="inputNombre4" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="inputNombre4" v-model="nombre">
+      </div>
+      <div class="col-md-12">
+        <label for="inputApellido" class="form-label">Apellido</label>
+        <input type="texto" class="form-control" id="inputApellido" v-model="apellido">
+      </div>
+      <div class="col-md-12">
         <label for="inputEmail4" class="form-label">Email</label>
         <input
           type="email"
@@ -41,7 +49,7 @@ const registrar = () => {
           v-model="mail"
         />
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="inputPassword4" class="form-label">Contraseña</label>
         <input
           type="password"

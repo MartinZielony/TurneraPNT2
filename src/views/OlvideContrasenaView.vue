@@ -28,7 +28,7 @@ const validarInfo = () => {
         >Un correo será enviado a tu casilla y podrás seguir las instrucciones
         para continuar</a
       >
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="inputEmail4" class="form-label">Email</label>
         <input
           type="email"
@@ -59,8 +59,6 @@ form {
   border-radius: 8px;
   background-color: #d1dadc;
 }
-
-
 
 label {
   display: block;

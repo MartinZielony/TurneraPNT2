@@ -35,4 +35,8 @@ button {
   button:hover {
     background-color:#a4b5b9!important;
   }
+
+  #btn-logout{
+  width: min-content;
+}
 </style>
