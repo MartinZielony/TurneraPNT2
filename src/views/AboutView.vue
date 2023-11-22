@@ -23,6 +23,7 @@
   flex-direction: column;
   align-items: center;
   height: 80%;
+  background-color: #d1dadc;
   }
 }
 

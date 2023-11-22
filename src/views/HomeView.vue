@@ -11,6 +11,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 <style>
 .text-center{
   height: 80%;
+  padding: 20px;
 }
 </style>
 

@@ -35,14 +35,6 @@ const registrar = () => {
   <main>
     <form @submit.prevent="validarInfo()">
       <h1>Registrarse</h1>
-      <div class="col-md-6">
-        <label for="inputNombre4" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="inputNombre4" v-model="nombre">
-      </div>
-      <div class="col-md-6">
-        <label for="inputApellido" class="form-label">Apellido</label>
-        <input type="texto" class="form-control" id="inputApellido" v-model="apellido">
-      </div>
       <div class="col-md-12">
         <label for="inputNombre4" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="inputNombre4" v-model="nombre">
@@ -73,7 +65,6 @@ const registrar = () => {
       <label for="checkbox">Soy Médico</label>
       <input type="checkbox" id="checkbox" class="checkbox" v-model="esMedico" />
       </div>
-      <br />
       <div class="col-12">
         <button @click="registrar" class="btn btn-primary">Registrarse</button>
       </div>
