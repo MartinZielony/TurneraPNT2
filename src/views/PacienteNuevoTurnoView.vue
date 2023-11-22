@@ -96,14 +96,24 @@ let horarios = ref([
 </template>
 
 <style>
-.formulario {
-  display: flex;
-  flex-flow: column nowrap;
-  align-content: space-between;
-  height: 100vw;
-}
-
 main {
-  height: 43vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.formulario {
+  width: 100%;
+  height: 80%;
+  padding: 25px;
+  border-radius: 8px;
+  background-color: #d1dadc;
+  overflow: auto;
+}
+.table-container {
+  height: 100%; 
+  overflow: auto;
+}
+.table {
+  width: 100%; 
 }
 </style>

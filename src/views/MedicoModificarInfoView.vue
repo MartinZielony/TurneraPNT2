@@ -72,10 +72,18 @@ const validarInfo = () => {
 </template>
 
 <style>
-.formulario {
+main {
   display: flex;
-  flex-flow: column nowrap;
-  align-content: space-between;
-  height: 38vw;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #d1dadc;
+  height: 80%; 
+  overflow: auto;
 }
 </style>

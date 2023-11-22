@@ -47,3 +47,50 @@ const registrar = () => {
     </form>
   </main>
 </template>
+
+<style scoped>
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+form {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #d1dadc;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+input {
+  width: 100% !important;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #496c74;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.checkbox{
+	width: 20px;
+	height: 20px;
+  border: none;
+  background-color: #fff; 
+}
+</style>
