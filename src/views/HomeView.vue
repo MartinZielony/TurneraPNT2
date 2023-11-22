@@ -8,3 +8,9 @@ import TheWelcome from '../components/TheWelcome.vue'
   </main>
 </template>
 
+<style>
+.text-center{
+  height: 80%;
+}
+</style>
+

@@ -14,7 +14,7 @@ const estasSeguro = (id) => {
 
 <template>
   <main>
-    <div class="text-center">
+    <div class="text-center" style="height: fit-content;">
       <h1>
         Estos son tus turnos, {{ user.nombreUsuario }}
         {{ user.apellidoUsuario }}
@@ -64,9 +64,8 @@ main {
 }
 .text-center {
   width: 100%;
-  height: 80%;
-  padding: 20px;
   border-radius: 8px;
+  
   background-color: #d1dadc;
 }
 

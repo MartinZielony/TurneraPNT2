@@ -28,11 +28,8 @@ const registrar = () => {
   alert("Te registraste!");
   router.push("/login");
 };
-  validarInfo()
-}
 
 </script>
-
 
 <template>
   <main>
