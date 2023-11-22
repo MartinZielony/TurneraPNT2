@@ -35,9 +35,24 @@ const resetear = () => {
 
             <RouterLink v-if="!user.estaLogueado" to="/login"><button class="btn btn-outline-success">Login</button></RouterLink>
             <h4 v-if="user.estaLogueado">{{ user.nombreUsuario }}</h4>
-            <button @click="resetear()" v-if="user.estaLogueado" class="btn btn-outline-danger">Logout</button>
+            <button @click="resetear()" v-if="user.estaLogueado" id="btn-logout" class="btn btn-outline-danger">Logout</button>
           </div>
         </div>
       </nav>
     </div>
 </template>
+
+<style>
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #496c74;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>
