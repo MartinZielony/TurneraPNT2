@@ -78,11 +78,6 @@ form {
   background-color: #d1dadc;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 label {
   display: block;
   margin-bottom: 8px;
@@ -94,20 +89,6 @@ input {
   padding: 8px;
   margin-bottom: 16px;
 }
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #5f7e85 !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 4px;
-}
-
-button:hover {
-  background-color: #a4b5b9 !important;
-}
-
 a {
   display: block;
   text-align: center;

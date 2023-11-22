@@ -123,8 +123,6 @@ main {
 .table-container {
   height: 100%; 
   overflow: auto;
-}
-.table {
   width: 100%; 
 }
 </style>
