@@ -11,13 +11,19 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+
 @media (min-width: 1024px) {
   .about {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80%;
   }
 }
+
 </style>
