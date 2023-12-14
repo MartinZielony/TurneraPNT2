@@ -3,21 +3,23 @@ import { ref } from "vue";
 import { useUserStore } from "../stores/user";
 import { useRouter } from "vue-router";
 
-const user = useUserStore();
+const usuario = useUserStore();
 const router = useRouter();
 
-let mail = ref("");
-let contrasena = ref("");
+let email = ref("");
+let contrasenia = ref("");
 
 const validarInfo = async () => {
-  if (mail.value == "" && contrasena.value == "") {
+  if (email.value == "" && contrasenia.value == "") {
     alert("Usuario y Contraseña deben estar completos!");
-    mail = "";
-    contrasena = "";
+    email = "";
+    contrasenia = "";
   } else {
-    let respuesta = await user.login(mail.value, contrasena.value);
+    let respuesta = await usuario.login(email.value, contrasenia.value);
+    console.log("esPaciente:", usuario.esPaciente);
     if (respuesta) {
-      if (user.esPaciente) {
+      console.log("Usuario en validarInfo:", usuario.value);
+      if (usuario.esPaciente) {
         router.push("/homePaciente");
       } else {
         router.push("/homeMedico");
@@ -40,7 +42,7 @@ const validarInfo = async () => {
           type="email"
           class="form-control"
           id="inputEmail4"
-          v-model="mail"
+          v-model="email"
         />
       </div>
       <div class="col-md-12">
@@ -49,7 +51,7 @@ const validarInfo = async () => {
           type="password"
           class="form-control"
           id="inputPassword4"
-          v-model="contrasena"
+          v-model="contrasenia"
         />
       </div>
 

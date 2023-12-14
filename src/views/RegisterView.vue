@@ -5,19 +5,19 @@ import { useRouter } from "vue-router";
 const user = useUserStore();
 const router = useRouter();
 
-let mail = ref("")
+let email = ref("")
 let nombre = ref("")
 let apellido = ref("")
-let contrasena = ref("")
+let contrasenia = ref("")
 let esMedico = ref(false)
 
 const validarInfo = () => {
-  if (mail.value == "" && contrasena.value == "") {
+  if (email.value == "" && contrasenia.value == "") {
     alert("Usuario y Contraseña deben estar completos!");
-    mail = "";
-    contrasena = "";
+    email = "";
+    contrasenia = "";
   } else {
-    let respuesta = user.register(mail.value, contrasena.value);
+    let respuesta = user.register(email.value, contrasenia.value);
     if (respuesta && user.esPaciente) {
       router.push("/homePaciente");
     }
@@ -49,7 +49,7 @@ const registrar = () => {
           type="email"
           class="form-control"
           id="inputEmail4"
-          v-model="mail"
+          v-model="email"
         />
       </div>
       <div class="col-md-12">
@@ -58,7 +58,7 @@ const registrar = () => {
           type="password"
           class="form-control"
           id="inputPassword4"
-          v-model="contrasena"
+          v-model="contrasenia"
         />
       </div>
       <div>

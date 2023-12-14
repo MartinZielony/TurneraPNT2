@@ -5,14 +5,14 @@ import { useRouter } from "vue-router";
 const user = useUserStore();
 const router = useRouter();
 
-let mail = ref("");
+let email = ref("");
 
 const validarInfo = () => {
-  if (mail.value == "") {
+  if (email.value == "") {
     alert("Campo Mail debe estar completo!");
-    mail = "";
+    email = "";
   } else {
-    alert("Te enviaremos un mail para que resetees tu contraseña.");
+    alert("Te enviaremos un email para que resetees tu contraseña.");
     router.push("/login");
   }
 };
@@ -34,7 +34,7 @@ const validarInfo = () => {
           type="email"
           class="form-control"
           id="inputEmail4"
-          v-model="mail"
+          v-model="email"
         />
       </div>
       <div class="col-12">

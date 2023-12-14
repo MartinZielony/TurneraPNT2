@@ -1,7 +1,7 @@
 import axiosClient from './axiosClient.js';
 const apiClient = axiosClient.getApiClient();
 
-export default {
+export const userService = {
 	login(user) {
 		//Utilizo api Client que es el objeto inicializado de axios
 		return apiClient.post('/usuarios/login', user);
@@ -9,8 +9,14 @@ export default {
 		// axios pero instanciado con la direccion y las caracteristicas de la peticion.
 	},
 
-	register(user){
-		return apiClient.post('/usuario/', user);
-        //http://localhost:8080/api/usuario/
+	crearUsuario(user){
+		return apiClient.post('/usuarios/', user);
+        //http://localhost:8080/api/usuarios/
+	},
+
+	editarUsuario(user){
+		return apiClient.put('/usuarios/',user);
+		 //http://localhost:8080/api/usuarios/:id
 	}
+
 }

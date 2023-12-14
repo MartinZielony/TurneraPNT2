@@ -1,15 +1,19 @@
 <script setup>
-import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import { useRouter, RouterLink } from "vue-router";
-const user = useUserStore();
-const router = useRouter();
+
+const store = useUserStore();
+const { usuario } = storeToRefs(store);
+console.log("Valor de usuario en MedicoHomeView:", usuario);
+
 </script>
+
 
 <template>
   <main>
     <div class="text-center">
-      <h1>Bienvenido, {{ user.nombreUsuario }} {{ user.apellidoUsuario }}</h1>
+      <h1>Bienvenido, {{  usuario.nombre }} {{usuario.apellido }}</h1>
       <RouterLink to="/agendaMedico"
         ><button class="btn btn-primary m-1">Ver Agenda</button></RouterLink
       >
