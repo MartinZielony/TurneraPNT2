@@ -44,7 +44,7 @@
 
             console.log("Usuario después del inicio de sesión:", this.usuario);
 
-            return true;
+            return this.usuario;
           } else {
             return false;
           }

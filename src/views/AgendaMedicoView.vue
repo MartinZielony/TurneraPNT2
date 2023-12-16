@@ -25,7 +25,7 @@ const estasSeguro = (id) => {
   <main>
     <div class="text-center" style="height: fit-content;">
       <h1>
-        Esta es su agenda, {{ user.usuario.nombre }} {{ user.usuario.apellido }}
+        Esta es su agenda, {{ user.nombre }} {{ user.apellido }}
       </h1>
       <div class="grilla">
         <div v-for="turno in user.turnos">
