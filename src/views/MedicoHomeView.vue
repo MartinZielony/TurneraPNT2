@@ -3,11 +3,9 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import { useRouter, RouterLink } from "vue-router";
 
-
 const store = useUserStore();
 const { usuario } = storeToRefs(store);
 console.log("Valor de usuario en MedicoHomeView:", usuario);
-
 </script>
 
 

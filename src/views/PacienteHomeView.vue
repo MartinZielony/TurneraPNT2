@@ -1,24 +1,17 @@
 <script setup>
-import { ref , onMounted} from "vue";
+import { storeToRefs } from "pinia";
 import { useUserStore } from "../stores/user";
 import { useRouter, RouterLink } from "vue-router";
 
-const user = useUserStore();
-const router = useRouter();
-
-const datosCargados = ref(false);
-
-onMounted(async () => {
-  await user.login("mar@m.com", "1234");
-  datosCargados.value = true;
-});
-
+const store = useUserStore();
+const { usuario } = storeToRefs(store);
+console.log("Valor de usuario en PacienteHomeView:", usuario);
 </script>
 
 <template>
   <main>
     <div class="text-center">
-      <h1>Bienvenido, {{ user.nombreUsuario }} {{ user.apellidoUsuario}}</h1>
+      <h1>Bienvenido, {{  usuario.nombre }} {{usuario.apellido }}</h1>
       <RouterLink to="/pacienteNuevoTurno"
         ><button class="btn btn-primary m-1">Sacar un Turno</button></RouterLink
       >

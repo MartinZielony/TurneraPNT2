@@ -46,7 +46,7 @@
 
             return this.usuario;
           } else {
-            return false;
+            return null;
           }
         } catch (error) {
           console.error("Error en la solicitud de login:", error);
@@ -57,7 +57,7 @@
           } else {
             console.error("Error durante la solicitud:", error.message);
           }
-          return false;
+          return null;
         }
       },
 
