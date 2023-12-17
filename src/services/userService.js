@@ -10,12 +10,12 @@ export const userService = {
 	},
 
 	crearUsuario(user){
-		return apiClient.post('/usuarios/', user);
+		return apiClient.post('/usuarios/crearUsuario', user);
         //http://localhost:8080/api/usuarios/
 	},
 
 	editarUsuario(user){
-		return apiClient.put('/usuarios/',user);
+		return apiClient.put(`/usuarios/${user.id}`,user);
 		 //http://localhost:8080/api/usuarios/:id
 	},
 

@@ -1,33 +1,57 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, onUpdated, ref } from "vue";
 import { useUserStore } from "../stores/user";
-import { useRouter } from "vue-router";
-const user = useUserStore();
-const router = useRouter();
 
-let email = user.correoUsuario;
-let nombre = user.nombreUsuario;
-let apellido = user.apellidoUsuario;
-let horarioInicioAtencion = user.horarioInicioAtencion;
-let horarioFinAtencion = user.horarioFinAtencion;
+const usuario = useUserStore();
 
-const validarInfo = () => {
-  if (email.value == "" && contrasenia.value == "") {
-    alert("Usuario y Contraseña deben estar completos!");
-    email = "";
-    contrasenia = "";
-  } else {
-    let respuesta = user.login(email.value, contrasenia.value);
-    if (respuesta && user.esPaciente) {
-      router.push("/homePaciente");
-    }
-  }
+onMounted(() => {
+  console.log('Componente montado. ID del usuario:', usuario.id);
+});
+
+onUpdated(() => {
+  console.log('ID del usuario después de la actualización:', usuario.id);
+});
+
+
+let email = ref(usuario.email);
+let nombre = ref(usuario.nombre);
+let apellido = ref(usuario.apellido);
+let horarioInicioAtencion = ref(usuario.horarioInicioAtencion);
+let horarioFinAtencion = ref(usuario.horarioFinAtencion);
+let especialidad = ref(usuario.especialidad);
+
+
+const editar = async() => {
+  console.log("ID del usuario:", usuario.id);
+
+  // llamar a la acción editarUsuario(usuario) de useusuarioStore
+  await usuario.editarUsuario({
+    email: email.value,
+    nombre: nombre.value,
+    apellido: apellido.value,
+    esPaciente: usuario.esPaciente,
+    horarioInicioAtencion: horarioInicioAtencion.value,
+    horarioFinAtencion: horarioFinAtencion.value,
+    especialidad: especialidad.value,
+  });
+
+    // Actualiza el usuario en el store con los nuevos valores
+    usuario.usuario = {
+    id: usuario.id,
+    email: email.value,
+    nombre: nombre.value,
+    apellido: apellido.value,
+    esPaciente: usuario.esPaciente,
+    horarioInicioAtencion: horarioInicioAtencion.value,
+    horarioFinAtencion: horarioFinAtencion.value,
+    especialidad: especialidad.value,
+  };
 };
 </script>
 
 <template>
   <main>
-    <form class="formulario text-center" @submit.prevent="validarInfo()">
+    <form class="formulario text-center" @submit.prevent="editar()">
       <h1>Modificar perfil de <b>Médico</b></h1>
       <div>
         <label for="inputEmail4" class="form-label">Email</label>
@@ -82,18 +106,20 @@ const validarInfo = () => {
           v-model="horarioFinAtencion"
         />
       </div>
-
+      <!--El usuario tiene un atributo numerico llamado especialidad, asignar valor del value del select a ese atributo-->
       <div>
         <label for="selectEspecialidad" class="form-label">Especialidad</label>
         <select class="form-select" name="Especialidades" id="especialidades">
           <option value="1">Pediatría</option>
           <option value="2">Clínico</option>
-          <option value="3">Urólogo</option>
+          <option value="3">Oftalmología</option>
+          <option value="4">Dermatología</option>
+          <option value="5">Nutrición</option>
         </select>
       </div>
       <br />
       <div>
-        <button class="btn btn-primary">Modificar</button>
+        <button type="submit" class="btn btn-primary">Modificar</button>
       </div>
     </form>
   </main>

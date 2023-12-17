@@ -1,114 +1,151 @@
+import { defineStore } from "pinia";
+import { userService } from "../services/userService";
 
-  import { defineStore } from "pinia";
-  import { userService } from "../services/userService";
+export const useUserStore = defineStore("user", {
+  state: () => {
+    return {
+      usuario: {
+        id: 0,
+        nombre: "",
+        apellido: "",
+        email: "",
+        contrasenia: "",
+        esPaciente: false,
+        especialidad: 0,
+        horarioInicioAtencion: "",
+        horarioFinalAtencion: "",
+        turnos: [],
+      },
+      estaLogueado: false,
+    };
+  },
+  actions: {
+    async login(email, contrasenia) {
+      try {
+        const respuesta = await userService.login({ email, contrasenia });
 
-  export const useUserStore = defineStore("user", {
-    state: () => {
-      return {
-        usuario: {
-          nombre: "",
-          apellido: "",
-          email: "",
-          contrasenia: "",
-          esPaciente: false,
-          especialidad: 0,
-          horarioInicioAtencion: "",
-          horarioFinalAtencion: "",
-          turnos: [],
-        },
-        estaLogueado: false,
-      };
-    },
-    actions: {
-      async login(email, contrasenia) {
-        try {
-          const respuesta = await userService.login({ email, contrasenia });
+        console.log("Respuesta del servicio de login:", respuesta);
 
-          console.log("Respuesta del servicio de login:", respuesta);
+        if (respuesta.status === 200) {
+          this.usuario.id = respuesta.data.id;
+          this.usuario.email = respuesta.data.email;
+          this.estaLogueado = true;
+          this.usuario.esPaciente = respuesta.data.esPaciente;
+          this.usuario.nombre = respuesta.data.nombre;
+          this.usuario.apellido = respuesta.data.apellido;
+          this.usuario.turnos = respuesta.data.turnos;
 
-
-          if (respuesta.status === 200) {
-            this.usuario.email = respuesta.data.email;
-            this.estaLogueado = true;
-            this.usuario.esPaciente = respuesta.data.esPaciente;
-            this.usuario.nombre = respuesta.data.nombre;
-            this.usuario.apellido = respuesta.data.apellido;
-            this.usuario.turnos = respuesta.data.turnos;
-
-            if (!this.usuario.esPaciente) {
-              this.usuario.horarioInicioAtencion =
-                respuesta.data.horarioInicioAtencion;
-              this.usuario.horarioFinalAtencion =
-                respuesta.data.horarioFinalAtencion;
-            }
-
-            console.log("Usuario después del inicio de sesión:", this.usuario);
-
-            return this.usuario;
-          } else {
-            return null;
+          if (!this.usuario.esPaciente) {
+            this.usuario.horarioInicioAtencion =
+              respuesta.data.horarioInicioAtencion;
+            this.usuario.horarioFinalAtencion =
+              respuesta.data.horarioFinalAtencion;
           }
-        } catch (error) {
-          console.error("Error en la solicitud de login:", error);
-          if (error.response) {
-            console.error("Respuesta del servidor:", error.response.data);
-          } else if (error.request) {
-            console.error("No hay respuesta del servidor:", error.request);
-          } else {
-            console.error("Error durante la solicitud:", error.message);
-          }
+
+          console.log("Usuario después del inicio de sesión:", this.usuario);
+
+          return this.usuario;
+        } else {
           return null;
         }
-      },
+      } catch (error) {
+        console.error("Error en la solicitud de login:", error);
+        if (error.response) {
+          console.error("Respuesta del servidor:", error.response.data);
+        } else if (error.request) {
+          console.error("No hay respuesta del servidor:", error.request);
+        } else {
+          console.error("Error durante la solicitud:", error.message);
+        }
+        return null;
+      }
+    },
 
-      async register(email, contrasenia, nombre, apellido, esMedico) {
-        try {
-          const respuesta = await userService.register({
-            email,
-            contrasenia,
-            nombre,
-            apellido,
-            esMedico,
-          });
-
-          if (respuesta.status === 200) {
-            alert(`Se registró, ${nombre} ${apellido}`);
-            return true;
-          } else {
-            return false;
-          }
-        } catch (error) {
-          console.error("Error en la solicitud de registro:", error);
+    async register({ email, contrasenia, nombre, apellido, esPaciente, especialidad, horarioInicioAtencion, horarioFinalAtencion }) {
+      try {
+        const respuesta = await userService.crearUsuario({
+          email,
+          contrasenia,
+          nombre,
+          apellido,
+          esPaciente,
+          especialidad,
+          horarioInicioAtencion,
+          horarioFinalAtencion,
+        });
+    
+        if (respuesta.status === 200) {
+          return true;
+        } else {
+          console.error("Error en la respuesta del servidor:", respuesta);
           return false;
         }
-      },
-
-      async getUsuarioPorId(id){
-        try {
-          const response = await userService.obtenerUsuario(id);
-          return response.data;
-        } catch (error) {
-          console.log ('Error al obtener usuario ' , error)
-        }
-
-      },
-
-      reset() {
-        this.usuario = {
-          nombre: "",
-          apellido: "",
-          email: "",
-          contrasenia: "",
-          esPaciente: false,
-          especialidad: 0,
-          horarioInicioAtencion: "",
-          horarioFinalAtencion: "",
-          turnos: [],
-        };
-        this.estaLogueado = false;
-      },
+      } catch (error) {
+        console.error("Error al realizar la solicitud de registro:", error);
+        return false;
+      }
     },
-  });
+
+    async getUsuarioPorId(id) {
+      try {
+        const response = await userService.obtenerUsuario(id);
+        return response.data;
+      } catch (error) {
+        console.log("Error al obtener usuario ", error);
+      }
+    },
+
+    async editarUsuario(usuarioEditado) {
+      try {
+        const respuesta = await userService.editarUsuario({
+          id: this.usuario.id,  // Asegúrate de tener el id disponible en el store
+          email: usuarioEditado.email,
+          nombre: usuarioEditado.nombre,
+          apellido: usuarioEditado.apellido,
+          esMedico: usuarioEditado.esPaciente,
+          horarioInicioAtencion: usuarioEditado.horarioInicioAtencion,
+          horarioFinalAtencion: usuarioEditado.horarioFinalAtencion,
+          especialidad: usuarioEditado.especialidad,
+        });
+
+        if (respuesta.status === 200) {
+          this.usuario = {
+            email: respuesta.data.email,
+            nombre: respuesta.data.nombre,
+            apellido: respuesta.data.apellido,
+            esPaciente: respuesta.data.esPaciente,
+            horarioInicioAtencion: respuesta.data.horarioInicioAtencion,
+            horarioFinalAtencion: respuesta.data.horarioFinalAtencion,
+            especialidad: respuesta.data.especialidad,
+            // ... (otros campos que puedas necesitar)
+          };
+
+          return this.usuario;
+        } else {
+          return null;
+        }
+      } catch (error) {
+        console.error("Error en la solicitud de editar:", error);
+        return false;
+      }
+    },
+
+    reset() {
+      this.usuario = {
+        nombre: "",
+        apellido: "",
+        email: "",
+        contrasenia: "",
+        esPaciente: false,
+        especialidad: 0,
+        horarioInicioAtencion: "",
+        horarioFinalAtencion: "",
+        turnos: [],
+      };
+      this.estaLogueado = false;
+    },
+  },
+});
 
 /*
 ----------------------------------------------------------------------------------------------
