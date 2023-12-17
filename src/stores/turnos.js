@@ -36,30 +36,37 @@ export const useTurnoStore = defineStore("turno", {
     },
 
     async delete(id) {
-        try {
-            const response = await turnoService.delete(id);
-        
-            // Muestra la respuesta en la consola para depuración
-            console.log('Respuesta al eliminar turno:', response);
-        
-            // Actualizar la lista de turnos después de eliminar uno
-            if (response.data) {
-                await this.loadTurnos();
-              }
-        
-            return response.data;
-          } catch (error) {
-            console.log("Error al eliminar turno ", error);
-          }
-        
+      try {
+        const response = await turnoService.delete(id);
+
+        // Muestra la respuesta en la consola para depuración
+        console.log("Respuesta al eliminar turno:", response);
+
+        // Actualizar la lista de turnos después de eliminar uno
+        if (response.data) {
+          await this.loadTurnos();
+        }
+
+        return response.data;
+      } catch (error) {
+        console.log("Error al eliminar turno ", error);
+      }
     },
 
     async loadTurnos() {
       try {
+        // Cargamos la lista de turnos y actualizamos el estado
         const response = await turnoService.getAll();
-        this.turnos = response.data;
+        this.turnos = response?.data || []; // Ajuste aquí
+
+        return response; // Retornamos la respuesta completa
       } catch (error) {
         console.error("Error al cargar los turnos:", error);
+        return {
+          data: [],
+          status: 500,
+          statusText: "Error al cargar los turnos",
+        }; // Retornamos un objeto de respuesta vacío
       }
     },
   },

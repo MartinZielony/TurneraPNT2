@@ -36,7 +36,8 @@ const estasSeguro = async (id) => {
 
     // Actualizar la lista de turnos en la vista solo si la eliminación fue exitosa
     if (eliminacionExitosa) {
-      turnos.value = await loadTurnos();
+      // Actualizar la referencia de usuario.turnos
+      usuario.value.turnos = await loadTurnos();
     }
   }
 };
