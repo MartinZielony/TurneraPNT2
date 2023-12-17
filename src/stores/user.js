@@ -83,6 +83,16 @@
         }
       },
 
+      async getUsuarioPorId(id){
+        try {
+          const response = await userService.obtenerUsuario(id);
+          return response.data;
+        } catch (error) {
+          console.log ('Error al obtener usuario ' , error)
+        }
+
+      },
+
       reset() {
         this.usuario = {
           nombre: "",
@@ -96,13 +106,6 @@
           turnos: [],
         };
         this.estaLogueado = false;
-      },
-
-      eliminarTurno(id) {
-        const turno = this.usuario.turnos.find((turno) => turno.id === id);
-        const indice = this.usuario.turnos.indexOf(turno);
-        this.usuario.turnos.splice(indice, 1);
-        console.log("Lista de turnos luego de eliminar: ", this.usuario.turnos);
       },
     },
   });

@@ -17,6 +17,10 @@ export const userService = {
 	editarUsuario(user){
 		return apiClient.put('/usuarios/',user);
 		 //http://localhost:8080/api/usuarios/:id
+	},
+
+	obtenerUsuario(id){
+		return apiClient.get(`/usuarios/${id}`);
 	}
 
 }

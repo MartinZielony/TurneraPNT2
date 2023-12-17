@@ -1,62 +1,96 @@
 <script setup>
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "../stores/user";
-import { useRouter, RouterLink } from "vue-router";
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useUserStore } from '../stores/user';
+import { useTurnoStore } from '../stores/turnos';
+import { useRouter, RouterLink } from 'vue-router';
 
-const user = storeToRefs(useUserStore());
+const { turno } = storeToRefs(useTurnoStore());
+const { usuario } = storeToRefs(useUserStore());
 const router = useRouter();
+const pacienteNombres = ref({});
 
-console.log("Valor de usuario en AGEndA :", user);
+onMounted(async () => {
+  console.log('Valor de usuario en Agenda :', usuario.value);
 
-//Esto está armado en base al listado de turnos del paciente, por eso las similitudes.
+  for (const turno of usuario.value.turnos) {
+    await obtenerPaciente(turno.id_paciente);
+  }
+});
 
-const estasSeguro = (id) => {
-  if (confirm("Estás seguro de que querés eliminar el turno?")) {
-    user.eliminarTurno(id);
+const obtenerPaciente = async (id_paciente) => {
+  try {
+    const paciente = await useUserStore().getUsuarioPorId(id_paciente);
+    pacienteNombres.value[id_paciente] = paciente
+      ? `${paciente.nombre} ${paciente.apellido}`
+      : 'Paciente no encontrado';
+  } catch (error) {
+    console.error('Error al obtener paciente:', error);
+    pacienteNombres.value[id_paciente] = 'Error al obtener paciente';
   }
 };
 
-//Provisoriamente tenemos el método estasSeguro en ListadoTurnosView, pero en realidad la idea es que el cancelamiento lo maneje el objeto Turno en sí.
-//Y que el botón para cancelarlo aparezca en cada elemento del listado.
+const estasSeguro = async (id) => {
+  if (confirm('Estás seguro de que querés cancelar el turno?')) {
+    const eliminacionExitosa = await useTurnoStore().delete(id);
+
+    // Actualizar la lista de turnos en la vista solo si la eliminación fue exitosa
+    if (eliminacionExitosa) {
+      turnos.value = await loadTurnos();
+    }
+  }
+};
+
+const loadTurnos = async () => {
+  try {
+    // Cargamos la lista de turnos y retornamos la data
+    const response = await useTurnoStore().loadTurnos();
+    return response.data;
+  } catch (error) {
+    console.error('Error al cargar los turnos:', error);
+    return [];
+  }
+};
+
+const obtenerNombrePorId = (id_paciente) => {
+  return pacienteNombres.value[id_paciente] || 'Nombre no encontrado';
+};
 </script>
 
 <template>
   <main>
     <div class="text-center" style="height: fit-content;">
       <h1>
-        Esta es su agenda, {{ user.nombre }} {{ user.apellido }}
+        Esta es su agenda, {{ usuario.nombre }} {{ usuario.apellido }}
       </h1>
+
       <div class="grilla">
-        <div v-for="turno in user.turnos">
+        <div v-for="turno in usuario.turnos" :key="turno.id">
           <div class="card" style="width: 18rem">
             <div class="card-body">
-              <h5 class="card-title">{{ turno.fecha }}/{{ turno.hora }}</h5>
+              <h5 class="card-title">{{ turno.fechaHora }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">
-                {{ turno.medico.nombre }} {{ turno.medico.apellido }}
+                {{ usuario.nombre }} {{ usuario.apellido }}
               </h6>
               <p class="card-text">
-                Turno con el paciente {{ turno.paciente.apellido }}
-                {{ turno.paciente.nombre }}
+                Turno con el paciente {{ obtenerNombrePorId(turno.id_paciente) }}
               </p>
-              <button
-                @click="estasSeguro(turno.id)"
-                class="btn btn-danger card-link"
-              >
-                Eliminar
+              <button @click="estasSeguro(turno.id)" class="btn btn-danger card-link">
+                Cancelar
               </button>
             </div>
           </div>
         </div>
       </div>
-      <RouterLink to="/homeMedico"
-        ><button class="btn btn-primary">Volver al Inicio</button></RouterLink
-      >
+
+      <RouterLink to="/homeMedico">
+        <button class="btn btn-primary">Volver al Inicio</button>
+      </RouterLink>
     </div>
   </main>
 </template>
 
-<style scoped >
+<style scoped>
 .grilla {
   display: grid;
   grid-template-columns: 1fr 1fr;
