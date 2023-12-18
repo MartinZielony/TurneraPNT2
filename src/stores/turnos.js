@@ -16,16 +16,14 @@ export const useTurnoStore = defineStore("turno", {
   actions: {
     async agregar(fecha, hora, id_medico, id_paciente) {
       try {
-        const respuesta = await turnoService.register({
-          state: () => {
-            return {
-              turnos: [],
-            };
-          },
+        const respuesta = await turnoService.agregar({
+        fecha,
+        hora,
+        id_medico,
+        id_paciente
         });
 
         if (respuesta.status === 200) {
-          alert(`Se registró, ${nombre} ${apellido}`);
           return true;
         } else {
           return false;

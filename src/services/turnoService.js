@@ -12,4 +12,8 @@ export const turnoService = {
   delete(id) {
     return apiClient.delete(`/turnos/${id}`);
   },
+
+  agregar(turno){
+    return apiClient.post("/turnos/", turno)
+  }
 };

@@ -2,12 +2,20 @@
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
 import { useRouter } from "vue-router";
+import { useTurnoStore } from "../stores/turnos";
+import { turnoService } from "../services/turnoService";
 
 const router = useRouter();
 const selectorEspecialidad = ref("");
 let medicosFiltrados = ref([]);
+
+
+let id_paciente = useUserStore().usuario.id;
+let medicoSeleccionado = ref(null);
 let fechaSeleccionada = ref("");
-let horaSeleccionada = ref("");
+let horaSeleccionada = ref("")
+
+console.log("ID PACIENTE NUEVO TURNO ", id_paciente)
 
 const revelarMedicos = async() => {
   console.log("valor del selector", selectorEspecialidad.value);
@@ -32,9 +40,29 @@ const revelarMedicos = async() => {
   console.log(medicosFiltrados);
 };
 
-const reservado = () => {
-  alert("Reservado!");
-  router.push("/exitoNuevoTurno");
+const reservado = async (hora) => {
+  // Obtener la información seleccionada
+
+  if (medicoSeleccionado && fechaSeleccionada.value && hora) {
+    console.log('Medico Seleccionado:', medicoSeleccionado); 
+    
+    const id_medico = medicoSeleccionado._value.id;
+    // Llamar al método agregar del store con la información necesaria
+
+    const turno = await useTurnoStore().agregar(
+      fechaSeleccionada.value,
+      hora,
+      id_medico,
+      useUserStore().usuario.id,
+      console.log('Medico Seleccionado ID dentro de agregar',   id_medico)
+    );
+    
+   console.log(turno)
+    alert("Reservado!");
+    router.push("/exitoNuevoTurno");
+  } else {
+    alert("Selecciona un médico, una fecha y una hora antes de reservar.");
+  }
 };
 
 let horarios = ref([
@@ -81,13 +109,13 @@ let horarios = ref([
         <option value="4">Dermatología</option>
         <option value="5">Nutrición</option>
       </select>
-      <select class="form-select">
+      <select class="form-select"  v-model="medicoSeleccionado">
         <option value="#" selected disabled>Seleccione un médico</option>
-        <option v-for="medico in medicosFiltrados" value="medico.nombre">
+        <option v-for="medico in medicosFiltrados" :value="medico">
           Dr/Dra  {{ medico.nombre }} {{ medico.apellido }}
         </option>
       </select>
-      <input type="date" class="form-control" /> <br />
+      <input  v-model="fechaSeleccionada" type="date" class="form-control" /> <br />
       <div class="table-container">
         <table class="table table-striped">
           <thead>
@@ -103,7 +131,7 @@ let horarios = ref([
               <td v-if="hora.disponible">Si</td>
               <td v-if="!hora.disponible">No</td>
               <td v-if="hora.disponible">
-                <button @click="reservado" class="btn btn-success">
+                <button @click="reservado(hora.hora)" class="btn btn-success">
                   Reservar
                 </button>
               </td>
