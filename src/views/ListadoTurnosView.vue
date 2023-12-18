@@ -57,16 +57,16 @@ const obtenerPorId = (id_medico) => {
 };
 
 const estasSeguro = async (id) => {
-  if (confirm("Estás seguro de que querés cancelar el turno?")) {
+  try {
+    if (confirm("Estás seguro de que querés cancelar el turno?")) {
+      const eliminacionExitosa = await useTurnoStore().delete(id);
 
-    //usa la acción del store para eliminar
-    const eliminacionExitosa = await useTurnoStore().delete(id);
-
-    // actualiza la lista de turnos en la vista si la eliminación fue exitosa
-    if (eliminacionExitosa) {
-      // actualiza la referencia de usuario.turnos
-      usuario.value.turnos = await loadTurnos();
+      if (eliminacionExitosa) {
+        usuario.value = { ...usuario.value, turnos: await loadTurnos() };
+      }
     }
+  } catch (error) {
+    console.error("Error al cancelar el turno:", error);
   }
 };
 

@@ -55,7 +55,7 @@ const reservado = async (hora) => {  // crea la reserva - recibe la hora por pá
     );
    console.log(turno)
     alert("Reservado!");
-    router.push("/exitoNuevoTurno");
+    router.push("/homePaciente");
   } else {
     alert("Selecciona un médico, una fecha y una hora antes de reservar.");
   }

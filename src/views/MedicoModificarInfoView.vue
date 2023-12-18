@@ -1,53 +1,43 @@
 <script setup>
-import { onMounted, onUpdated, ref } from "vue";
+import { onMounted, onUpdated, ref } from "vue"; // onMounted se ejecuta al renderizar la página, onUpdate luego de un cambio
 import { useUserStore } from "../stores/user";
+import { RouterLink } from "vue-router";
 
-const usuario = useUserStore();
+const store = useUserStore();
+const usuario = ref(store.usuario); // Obtiene el usuario como una referencia
 
 onMounted(() => {
-  console.log('Componente montado. ID del usuario:', usuario.value.id);
+  console.log("Componente montado usuario:", usuario.value);
 });
 
 onUpdated(() => {
-  console.log('ID del usuario después de la actualización:', usuario.id);
+  console.log("ID del usuario después de la actualización:", usuario.value);
+  usuario.usuario = store.getUsuarioPorId(usuario.value.id);
 });
 
+let emailNuevo = ref(usuario.value.email);
+let nombreNuevo = ref(usuario.value.nombre);
+let apellidoNuevo = ref(usuario.value.apellido);
+let horarioInicioAtencionNuevo = ref(usuario.value.horarioInicioAtencion);
+let horarioFinAtencionNuevo = ref(usuario.value.horarioFinAtencion);
+let especialidadNuevo = ref(usuario.value.especialidad);
 
-let email = ref(usuario.email);
-let nombre = ref(usuario.nombre);
-let apellido = ref(usuario.apellido);
-let horarioInicioAtencion = ref(usuario.horarioInicioAtencion);
-let horarioFinAtencion = ref(usuario.horarioFinAtencion);
-let especialidad = ref(usuario.especialidad);
+const editar = async () => {
+  console.log("ID del usuario:", usuario.value.id);
 
-
-const editar = async() => {
-  console.log("ID del usuario:", usuario.id);
-
-
-
-  // llamar a la acción editarUsuario(usuario) de useusuarioStore
-  await usuario.editarUsuario({
-    email: email.value,
-    nombre: nombre.value,
-    apellido: apellido.value,
-    esPaciente: usuario.esPaciente,
-    horarioInicioAtencion: horarioInicioAtencion.value,
-    horarioFinAtencion: horarioFinAtencion.value,
-    especialidad: especialidad.value,
+  // Llama a la acción editarUsuario del store y le envía los valores
+  await store.editarUsuario({
+    id: usuario.value.id,
+    email: emailNuevo.value,
+    nombre: nombreNuevo.value,
+    apellido: apellidoNuevo.value,
+    esPaciente: usuario.value.esPaciente,
+    horarioInicioAtencion: horarioInicioAtencionNuevo.value,
+    horarioFinAtencion: horarioFinAtencionNuevo.value,
+    especialidad: especialidadNuevo.value,
   });
 
-    // Actualiza el usuario en el store con los nuevos valores
-    usuario.usuario = {
-    id: usuario.id,
-    email: email.value,
-    nombre: nombre.value,
-    apellido: apellido.value,
-    esPaciente: usuario.esPaciente,
-    horarioInicioAtencion: horarioInicioAtencion.value,
-    horarioFinAtencion: horarioFinAtencion.value,
-    especialidad: especialidad.value,
-  };
+  console.log("USUARIO LUEGO DE ACTUALIZAR ", usuario.value);
 };
 </script>
 
@@ -61,7 +51,7 @@ const editar = async() => {
           type="email"
           class="form-control"
           id="inputEmail4"
-          v-model="email"
+          v-model="emailNuevo"
         />
       </div>
 
@@ -71,7 +61,7 @@ const editar = async() => {
           type="text"
           class="form-control"
           id="inputNombre4"
-          v-model="nombre"
+          v-model="nombreNuevo"
         />
       </div>
 
@@ -81,7 +71,7 @@ const editar = async() => {
           type="text"
           class="form-control"
           id="inputApellido4"
-          v-model="apellido"
+          v-model="apellidoNuevo"
         />
       </div>
 
@@ -93,7 +83,7 @@ const editar = async() => {
           class="form-control"
           type="time"
           name="inputHorarioInicioAtencion"
-          v-model="horarioInicioAtencion"
+          v-model="horarioInicioAtencionNuevo"
         />
       </div>
 
@@ -105,13 +95,13 @@ const editar = async() => {
           class="form-control"
           type="time"
           name="inputHorarioFinAtencion"
-          v-model="horarioFinAtencion"
+          v-model="horarioFinAtencionNuevo"
         />
       </div>
       <!--El usuario tiene un atributo numerico llamado especialidad, asignar valor del value del select a ese atributo-->
       <div>
         <label for="selectEspecialidad" class="form-label">Especialidad</label>
-        <select class="form-select" name="Especialidades" id="especialidades">
+        <select class="form-select" name="Especialidades" id="especialidades" v-model="especialidadNuevo">
           <option value="1">Pediatría</option>
           <option value="2">Clínico</option>
           <option value="3">Oftalmología</option>
@@ -122,8 +112,10 @@ const editar = async() => {
       <br />
       <div>
         <button type="submit" class="btn btn-primary">Modificar</button>
+        <RouterLink to="/homeMedico"> <button class="btn btn-primary">Volver al Inicio</button> </RouterLink>
       </div>
     </form>
+    
   </main>
 </template>
 
@@ -139,8 +131,7 @@ form {
   padding: 20px;
   border-radius: 8px;
   background-color: #d1dadc;
-  height: 80%; 
+  height: 80%;
   overflow: auto;
 }
-
 </style>

@@ -107,7 +107,7 @@ export const useUserStore = defineStore("user", {
     async editarUsuario(usuarioEditado) {
       try {
         const respuesta = await userService.editarUsuario({
-          id: this.usuario.id,  // Asegúrate de tener el id disponible en el store
+          id: this.usuario.id,
           email: usuarioEditado.email,
           nombre: usuarioEditado.nombre,
           apellido: usuarioEditado.apellido,
@@ -119,17 +119,19 @@ export const useUserStore = defineStore("user", {
 
         if (respuesta.status === 200) {
           this.usuario = {
-            email: respuesta.data.email,
-            nombre: respuesta.data.nombre,
-            apellido: respuesta.data.apellido,
-            esPaciente: respuesta.data.esPaciente,
-            horarioInicioAtencion: respuesta.data.horarioInicioAtencion,
-            horarioFinalAtencion: respuesta.data.horarioFinalAtencion,
-            especialidad: respuesta.data.especialidad,
-            // ... (otros campos que puedas necesitar)
+            // mantiene los valores o actualiza a los nuevos
+            id: respuesta.data.id || this.usuario.id,
+            email: respuesta.data.email || this.usuario.email,
+            nombre: respuesta.data.nombre || this.usuario.nombre,
+            apellido: respuesta.data.apellido || this.usuario.apellido,
+            esPaciente: respuesta.data.esPaciente !== undefined ? respuesta.data.esPaciente : this.usuario.esPaciente,
+            horarioInicioAtencion: respuesta.data.horarioInicioAtencion || this.usuario.horarioInicioAtencion,
+            horarioFinalAtencion: respuesta.data.horarioFinalAtencion || this.usuario.horarioFinalAtencion,
+            especialidad: respuesta.data.especialidad || this.usuario.especialidad,
+            turnos: this.turnos
           };
-
-          return this.usuario;
+          
+            return this.usuario;
         } else {
           return null;
         }
