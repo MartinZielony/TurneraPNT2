@@ -116,10 +116,9 @@ export const useUserStore = defineStore("user", {
           horarioFinalAtencion: usuarioEditado.horarioFinalAtencion,
           especialidad: usuarioEditado.especialidad,
         });
-
+    
         if (respuesta.status === 200) {
-          this.usuario = {
-            // mantiene los valores o actualiza a los nuevos
+          const nuevoUsuario = {
             id: respuesta.data.id || this.usuario.id,
             email: respuesta.data.email || this.usuario.email,
             nombre: respuesta.data.nombre || this.usuario.nombre,
@@ -128,10 +127,12 @@ export const useUserStore = defineStore("user", {
             horarioInicioAtencion: respuesta.data.horarioInicioAtencion || this.usuario.horarioInicioAtencion,
             horarioFinalAtencion: respuesta.data.horarioFinalAtencion || this.usuario.horarioFinalAtencion,
             especialidad: respuesta.data.especialidad || this.usuario.especialidad,
-            turnos: this.turnos
+            turnos: this.usuario.turnos, // mantener el valor actual
           };
-          
-            return this.usuario;
+    
+          this.usuario = nuevoUsuario;  // Reemplazar el objeto completo
+    
+          return this.usuario;
         } else {
           return null;
         }
@@ -140,6 +141,7 @@ export const useUserStore = defineStore("user", {
         return false;
       }
     },
+    
 
     reset() {
       this.usuario = {

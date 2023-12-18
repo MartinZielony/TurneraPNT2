@@ -11,7 +11,7 @@ export const userService = {
 
 	crearUsuario(user){
 		return apiClient.post('/usuarios/crearUsuario', user);
-        //http://localhost:3000/api/usuarios/
+        //http://localhost:3000/api/usuarios/crearUsuario
 	},
 
 	editarUsuario(user){

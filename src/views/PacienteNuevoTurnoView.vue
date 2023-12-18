@@ -16,24 +16,9 @@ console.log("ID PACIENTE NUEVO TURNO ", id_paciente)
 
 const revelarMedicos = async() => { // muestra médicos según especialidad
   console.log("valor del selector", selectorEspecialidad.value);
-  switch (selectorEspecialidad.value) {
-    // cada caso llama a la acción del store getMedicosEspecialidad. Esta acción pide en la base de datos a los medicos de N° especialidad
-    case "1":
-      medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(1);
-      break;
-    case "2":
-      medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(2);;
-      break;
-      case "3":
-      medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(3);;
-      break;
-      case "4":
-      medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(4);;
-      break;
-      case "5":
-      medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(5);;
-      break;
-  }
+ 
+  medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(parseInt(selectorEspecialidad.value));
+
   console.log(medicosFiltrados);
 };
 

@@ -13,6 +13,7 @@ onMounted(() => {
 onUpdated(() => {
   console.log("ID del usuario después de la actualización:", usuario.value);
   usuario.usuario = store.getUsuarioPorId(usuario.value.id);
+  console.log(usuario);
 });
 
 let emailNuevo = ref(usuario.value.email);
