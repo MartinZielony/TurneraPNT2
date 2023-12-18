@@ -12,14 +12,15 @@ let apellido = ref("");
 let contrasenia = ref("");
 let esMedico = ref(false);
 let especialidad = ref(0);
-let horarioInicioAtencion = ref ("");
+let horarioInicioAtencion = ref("");
 let horarioFinalAtencion = ref("");
 
-const validarInfo = async() => {
+const validarInfo = async () => {
   try {
+    let esPaciente = !esMedico.value; //en el modelo el boolean esPaciente es true si paciente o false si es médico, acá cambiamos el orden
 
-    let esPaciente = !esMedico.value;
     let datosUsuario = {
+      //crea una variable con los valores para crear el usuario
       email: email.value,
       nombre: nombre.value,
       apellido: apellido.value,
@@ -28,14 +29,13 @@ const validarInfo = async() => {
     };
 
     if (esMedico.value) {
+      //si esMedico guarda los valores
       datosUsuario.especialidad = especialidad.value;
       datosUsuario.horarioInicioAtencion = horarioInicioAtencion.value;
       datosUsuario.horarioFinalAtencion = horarioFinalAtencion.value;
-      console.log("Valor de horarioFinalAtencion antes de enviar la solicitud dentro de if:", horarioFinalAtencion.value);
     }
-    console.log("Valor de horarioFinalAtencion antes de enviar la solicitud:", horarioFinalAtencion.value);
 
-    //llamada al store
+    //llamada al store y agrega los valores a la base
     const registroExitoso = await user.register(datosUsuario);
 
     if (registroExitoso) {
@@ -48,9 +48,7 @@ const validarInfo = async() => {
     console.error("Error al registrar el usuario:", error);
     alert("Error en el registro. Por favor, inténtelo de nuevo.");
   }
-  
 };
-
 </script>
 
 <template>
@@ -104,11 +102,17 @@ const validarInfo = async() => {
       </div>
 
       <div v-if="esMedico">
+        <!-- si el checkbox medico es true muestra el resto del formulario -->
         <div>
           <label for="selectEspecialidad" class="form-label"
             >Especialidad</label
           >
-          <select class="form-select" name="Especialidades" id="especialidades" v-model="especialidad">
+          <select
+            class="form-select"
+            name="Especialidades"
+            id="especialidades"
+            v-model="especialidad"
+          >
             <option value="1">Pediatría</option>
             <option value="2">Clínico</option>
             <option value="3">Oftalmología</option>

@@ -56,7 +56,7 @@ export const useTurnoStore = defineStore("turno", {
       try {
         // Cargamos la lista de turnos y actualizamos el estado
         const response = await turnoService.getAll();
-        this.turnos = response?.data || []; // Ajuste aquí
+        this.turnos = response?.data || []; 
 
         return response; // Retornamos la respuesta completa
       } catch (error) {
@@ -65,7 +65,7 @@ export const useTurnoStore = defineStore("turno", {
           data: [],
           status: 500,
           statusText: "Error al cargar los turnos",
-        }; // Retornamos un objeto de respuesta vacío
+        }; 
       }
     },
   },

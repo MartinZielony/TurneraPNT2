@@ -15,6 +15,7 @@ const validarInfo = async () => {
     email = "";
     contrasenia = "";
   } else {
+    // busca en el store al usuario
     let respuesta = await usuario.login(email.value, contrasenia.value);
     if (respuesta) {
       if (respuesta.esPaciente) {

@@ -1,26 +1,23 @@
 <script setup>
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 import { useTurnoStore } from "../stores/turnos";
-import { turnoService } from "../services/turnoService";
+
 
 const router = useRouter();
 const selectorEspecialidad = ref("");
 let medicosFiltrados = ref([]);
-
-
 let id_paciente = useUserStore().usuario.id;
 let medicoSeleccionado = ref(null);
 let fechaSeleccionada = ref("");
-let horaSeleccionada = ref("")
 
 console.log("ID PACIENTE NUEVO TURNO ", id_paciente)
 
-const revelarMedicos = async() => {
+const revelarMedicos = async() => { // muestra médicos según especialidad
   console.log("valor del selector", selectorEspecialidad.value);
   switch (selectorEspecialidad.value) {
-    // cada caso llama a la acción del store getMedicosEspecialidad. Esta acción pide en la base de datos a los medicos de X especialidad
+    // cada caso llama a la acción del store getMedicosEspecialidad. Esta acción pide en la base de datos a los medicos de N° especialidad
     case "1":
       medicosFiltrados.value = await useUserStore().getMedicosEspecialidad(1);
       break;
@@ -40,23 +37,22 @@ const revelarMedicos = async() => {
   console.log(medicosFiltrados);
 };
 
-const reservado = async (hora) => {
+const reservado = async (hora) => {  // crea la reserva - recibe la hora por párametro porque es la que manda en el boton reservar
+  
   // Obtener la información seleccionada
-
   if (medicoSeleccionado && fechaSeleccionada.value && hora) {
-    console.log('Medico Seleccionado:', medicoSeleccionado); 
     
-    const id_medico = medicoSeleccionado._value.id;
-    // Llamar al método agregar del store con la información necesaria
+    //la API ref se utiliza para crear referencias reactivas y se accede al valor real a través de la propiedad _value
 
-    const turno = await useTurnoStore().agregar(
-      fechaSeleccionada.value,
-      hora,
-      id_medico,
-      useUserStore().usuario.id,
-      console.log('Medico Seleccionado ID dentro de agregar',   id_medico)
-    );
+    const id_medico = medicoSeleccionado._value.id;
     
+    // Llamar a la acción agregar del store con la información necesaria
+    const turno = await useTurnoStore().agregar(
+      fechaSeleccionada.value, // obtiene el valor del ref
+      hora, // lo obtiene por párametro
+      id_medico, 
+      useUserStore().usuario.id, 
+    );
    console.log(turno)
     alert("Reservado!");
     router.push("/exitoNuevoTurno");
@@ -65,7 +61,7 @@ const reservado = async (hora) => {
   }
 };
 
-let horarios = ref([
+let horarios = ref([ //lista de horarios para visualizar y reservar
   {
     hora: "10:00",
     disponible: true,
@@ -102,7 +98,7 @@ let horarios = ref([
         v-on:change="revelarMedicos"
         class="form-select"
       >
-       <option value="#" selected disabled>Seleccione una especialidad</option>
+       <option value="" selected disabled>Seleccione una especialidad</option>
         <option value="1">Pediatría</option>
         <option value="2">Clínico</option>
         <option value="3">Oftalmología</option>
@@ -110,12 +106,16 @@ let horarios = ref([
         <option value="5">Nutrición</option>
       </select>
       <select class="form-select"  v-model="medicoSeleccionado">
-        <option value="#" selected disabled>Seleccione un médico</option>
+      <!--El v-model le asigna el valor a la variable, en este caso medicoSeleccionado-->
+        <option value="null" selected disabled>Seleccione un médico</option>
         <option v-for="medico in medicosFiltrados" :value="medico">
+                <!--El :value permite especificar el valor que se asignará al modelo cuando esa opción sea seleccionada-->
           Dr/Dra  {{ medico.nombre }} {{ medico.apellido }}
         </option>
       </select>
-      <input  v-model="fechaSeleccionada" type="date" class="form-control" /> <br />
+      <input  v-model="fechaSeleccionada" type="date" class="form-control" />  
+      <!--El v-model le asigna el valor a la variable, en este caso fechaSeleccionada-->
+      <br /> 
       <div class="table-container">
         <table class="table table-striped">
           <thead>
@@ -142,6 +142,9 @@ let horarios = ref([
           </tbody>
         </table>
       </div>
+      <RouterLink to="/homePaciente"
+        ><button class="btn btn-primary">Volver al Inicio</button></RouterLink
+      >
     </div>
   </main>
 </template>

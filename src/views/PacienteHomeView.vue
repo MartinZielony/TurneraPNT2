@@ -1,8 +1,9 @@
 <script setup>
-import { storeToRefs } from "pinia";
+import { storeToRefs } from "pinia"; // convierte propiedades del store de pinia en referencias reactivas de vue
 import { useUserStore } from "../stores/user";
 import { useRouter, RouterLink } from "vue-router";
 
+// busca en el store. 
 const store = useUserStore();
 const { usuario } = storeToRefs(store);
 console.log("Valor de usuario en PacienteHomeView:", usuario);

@@ -5,7 +5,7 @@ import { useUserStore } from "../stores/user";
 const usuario = useUserStore();
 
 onMounted(() => {
-  console.log('Componente montado. ID del usuario:', usuario.id);
+  console.log('Componente montado. ID del usuario:', usuario.value.id);
 });
 
 onUpdated(() => {
@@ -23,6 +23,8 @@ let especialidad = ref(usuario.especialidad);
 
 const editar = async() => {
   console.log("ID del usuario:", usuario.id);
+
+
 
   // llamar a la acción editarUsuario(usuario) de useusuarioStore
   await usuario.editarUsuario({
