@@ -5,7 +5,6 @@ import PacienteHomeView from '../views/PacienteHomeView.vue'
 import PacienteNuevoTurnoView from '../views/PacienteNuevoTurnoView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import OlvideContrasenaView from '../views/OlvideContrasenaView.vue'
-import TurnoNuevoExitoView from '../views/TurnoNuevoExitoView.vue'
 import ListadoTurnosView from '../views/ListadoTurnosView.vue'
 import MedicoHomeView from '../views/MedicoHomeView.vue'
 import AgendaMedicoView from '../views/AgendaMedicoView.vue'
@@ -51,11 +50,6 @@ const router = createRouter({
       path: '/olvideContrasena',
       name: 'olvideContrasena',
       component: OlvideContrasenaView
-    },
-    {
-      path: '/exitoNuevoTurno',
-      name: "exitoNuevoTurno",
-      component: TurnoNuevoExitoView
     },
     {
       path: '/listadoTurnos',
