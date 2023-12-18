@@ -19,9 +19,14 @@ onMounted(async () => {
 const obtenerMedico = async (id_medico) => {
   try {
     const medico = await useUserStore().getUsuarioPorId(id_medico);
-    medicoNombres.value[id_medico] = medico
-      ? `${medico.nombre} ${medico.apellido}`
-      : 'Médico no encontrado';
+    if (medico) {
+      medicoNombres.value[id_medico] = {
+        nombreCompleto: `${medico.nombre} ${medico.apellido}`,
+        especialidad: obtenerNombreEspecialidad(medico.especialidad),
+      };
+    } else {
+      medicoNombres.value[id_medico] = 'Médico no encontrado';
+    }
   } catch (error) {
     console.error('Error al obtener médico:', error);
     medicoNombres.value[id_medico] = 'Error al obtener médico';
@@ -31,6 +36,47 @@ const obtenerMedico = async (id_medico) => {
 const obtenerNombrePorId = (id_medico) => {
   return medicoNombres.value[id_medico] || 'Nombre no encontrado';
 };
+
+const estasSeguro = async (id) => {
+  if (confirm('Estás seguro de que querés cancelar el turno?')) {
+    const eliminacionExitosa = await useTurnoStore().delete(id);
+
+    // Actualizar la lista de turnos en la vista solo si la eliminación fue exitosa
+    if (eliminacionExitosa) {
+      // Actualizar la referencia de usuario.turnos
+      usuario.value.turnos = await loadTurnos();
+    }
+  } 
+};
+
+const loadTurnos = async () => {
+  try {
+    // Cargamos la lista de turnos y retornamos la data
+    const response = await useTurnoStore().loadTurnos();
+    return response.data;
+  } catch (error) {
+    console.error('Error al cargar los turnos:', error);
+    return [];
+  }
+};
+
+const obtenerNombreEspecialidad = (codigoEspecialidad) => {
+  switch (codigoEspecialidad) {
+    case 1:
+      return 'Pediatría';
+    case 2:
+      return 'Clínico';
+    case 3:
+      return 'Oftalmología';
+    case 4:
+      return 'Dermatología';
+    case 5:
+      return 'Nutrición';
+  }
+};
+
+
+
 </script>
 
 <template>
@@ -44,12 +90,13 @@ const obtenerNombrePorId = (id_medico) => {
         <div v-for="turno in usuario.turnos">
           <div class="card" style="width: 18rem">
             <div class="card-body">
-              <h5 class="card-title">{{ turno.fechaHora }}</h5>
+              <h5 class="card-title">{{ turno.fecha }} / {{ turno.hora }}</h5>
+              <hr>
               <h6 class="card-subtitle mb-2 text-muted">
-               especialidad
+               {{ obtenerNombrePorId(turno.id_medico).especialidad  }}
               </h6>
               <p class="card-text">
-                Turno con el/la Dr/Dra {{ obtenerNombrePorId(turno.id_medico) }}
+                Turno con el/la Dr/Dra <b>{{ obtenerNombrePorId(turno.id_medico).nombreCompleto }}</b>
               </p>
               <button
                 @click="estasSeguro(turno.id)"

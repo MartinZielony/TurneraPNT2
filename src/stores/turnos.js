@@ -5,7 +5,8 @@ export const useTurnoStore = defineStore("turno", {
   state: () => {
     return {
       turno: {
-        fechaHora: "",
+        fecha: "",
+        hora: "",
         id_medico: 0,
         id_paciente: 0,
       },
@@ -13,7 +14,7 @@ export const useTurnoStore = defineStore("turno", {
   },
 
   actions: {
-    async agregar(fechaHora, id_medico, id_paciente) {
+    async agregar(fecha, hora, id_medico, id_paciente) {
       try {
         const respuesta = await turnoService.register({
           state: () => {

@@ -69,12 +69,10 @@ const obtenerNombrePorId = (id_paciente) => {
         <div v-for="turno in usuario.turnos" :key="turno.id">
           <div class="card" style="width: 18rem">
             <div class="card-body">
-              <h5 class="card-title">{{ turno.fechaHora }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                {{ usuario.nombre }} {{ usuario.apellido }}
-              </h6>
+              <h5 class="card-title">{{ turno.fecha }} / {{ turno.hora }}</h5>
+             <hr>
               <p class="card-text">
-                Turno con el paciente {{ obtenerNombrePorId(turno.id_paciente) }}
+                Turno con el paciente <b>{{ obtenerNombrePorId(turno.id_paciente) }}</b>
               </p>
               <button @click="estasSeguro(turno.id)" class="btn btn-danger card-link">
                 Cancelar

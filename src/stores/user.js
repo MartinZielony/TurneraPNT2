@@ -95,6 +95,15 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async getMedicosEspecialidad(especialidad) {
+      try {
+        const response = await userService.obtenerMedicoEspecialidad(especialidad);
+        return response.data;
+      } catch (error) {
+        console.log("Error al obtener usuario ", error);
+      }
+    },
+
     async editarUsuario(usuarioEditado) {
       try {
         const respuesta = await userService.editarUsuario({

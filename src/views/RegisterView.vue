@@ -35,7 +35,7 @@ const validarInfo = async() => {
     }
     console.log("Valor de horarioFinalAtencion antes de enviar la solicitud:", horarioFinalAtencion.value);
 
-
+    //llamada al store
     const registroExitoso = await user.register(datosUsuario);
 
     if (registroExitoso) {
@@ -48,6 +48,7 @@ const validarInfo = async() => {
     console.error("Error al registrar el usuario:", error);
     alert("Error en el registro. Por favor, inténtelo de nuevo.");
   }
+  
 };
 
 </script>

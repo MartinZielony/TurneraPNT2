@@ -16,7 +16,7 @@ const validarInfo = async () => {
     contrasenia = "";
   } else {
     let respuesta = await usuario.login(email.value, contrasenia.value);
-    if (respuesta != null) {
+    if (respuesta) {
       if (respuesta.esPaciente) {
         router.push("/homePaciente");
       } else {
